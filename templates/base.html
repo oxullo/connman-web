@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {% block head %}
+    <!--<link rel="stylesheet" href="style.css" />-->
+    <title>Monobox webconf</title>
+    {% endblock %}
+    <script src="http://code.jquery.com/jquery-latest.js">
+</script>
+</head>
+<body>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+        <hr/>
+        Foo/ter
+        {% endblock %}
+    </div>
+</body>
+

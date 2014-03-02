@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Monobox network configuration panel</h1>
+    <hr/>
+    <p>Current state: <span id="state">N/A</state></p>
+    <p>Available WiFi connections <img id="loader" src="static/loader.gif"/></p>
+    <div id="connections" />
+<script>
+function poll_state()
+{
+   $.getJSON("/ajax/sys_state", function(data) {$("#state").text(data.state)});
+}
+function poll_connections()
+{
+    $("#loader").css("visibility", "visible");
+    $.get("/ajax/connections", function(data) {
+            $("#loader").css("visibility", "hidden");
+            $("#connections").html(data);
+    });
+}
+$(".action").click(function() { console.log("clicked " + this.id); return false; });
+
+function poll()
+{
+    poll_state();
+    poll_connections();
+}
+
+$( document ).ready(function() {
+    poll();
+});
+    
+setInterval(poll, 5000);
+</script>
+
+{% endblock %}
+

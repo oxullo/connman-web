@@ -1,0 +1,12 @@
+    <table>
+    <tr><th></th><th>Name</th><th>Signal strength</th><th>State</th></tr>
+    {% for entry in services %}
+        <tr>
+        <td><button id="but.{{ entry.id }}" class="action">{% if entry.state == 'online' %}Disconnect{% else %}Connect{% endif %}</button></td>
+        <td>{{ entry.name }}</td>
+        <td>{{ entry.strength }}</td>
+        <td>{{ entry.state }}</td>
+        </tr>
+    {% endfor %}
+    </table>    
+
