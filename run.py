@@ -93,7 +93,7 @@ def connect():
     return jsonify(ok=True)
 
 @app.route('/')
-def state():
+def index():
     return render_template('index.html')
 
 
