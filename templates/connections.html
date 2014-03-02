@@ -1,8 +1,8 @@
     <table>
     <tr><th></th><th>Name</th><th>Signal strength</th><th>State</th></tr>
     {% for entry in services %}
-        <tr>
-        <td><button id="but.{{ entry.id }}" class="action">{% if entry.state == 'online' %}Disconnect{% else %}Connect{% endif %}</button></td>
+        <tr id="{{ entry.id }}">
+        <td><button class="action" value="{% if entry.state == 'online' %}forget{% else %}connect{% endif %}">{% if entry.state == 'online' %}Forget{% else %}Connect{% endif %}</button></td>
         <td>{{ entry.name }}</td>
         <td>{{ entry.strength }}</td>
         <td>{{ entry.state }}</td>
@@ -10,3 +10,12 @@
     {% endfor %}
     </table>    
 
+<script>
+$(".action").click(function() {
+        var id = $(this).closest('tr').attr('id');
+        var command = $(this).attr("value");
+        console.log("Executing command: " + command + " id="+ id);
+        $.getJSON("/ajax/"+command, {id: id});
+        return false;
+});
+</script>

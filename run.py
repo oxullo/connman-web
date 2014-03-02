@@ -3,7 +3,7 @@
 
 import dbus
 
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 
 app = Flask(__name__)
 bus = dbus.SystemBus()
@@ -34,9 +34,25 @@ def sys_state():
 
 @app.route('/ajax/connections')
 def connections():
-    scan()
+    # scan()
     services = get_wifi_services()
     return render_template('connections.html', services=services)
+
+@app.route('/ajax/forget')
+def forget():
+    id = request.args.get('id')
+    service = dbus.Interface(bus.get_object('net.connman',
+            '/net/connman/service/%s' % id), 'net.connman.Service')
+    service.Remove()
+    return jsonify(ok=True)
+
+@app.route('/ajax/connect')
+def connect():
+    id = request.args.get('id')
+    service = dbus.Interface(bus.get_object('net.connman',
+            '/net/connman/service/%s' % id), 'net.connman.Service')
+    service.Connect(timeout=60000)
+    return jsonify(ok=True)
 
 @app.route('/')
 def state():
