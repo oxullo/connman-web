@@ -15,7 +15,11 @@ $(".action").click(function() {
         var id = $(this).closest('tr').attr('id');
         var command = $(this).attr("value");
         console.log("Executing command: " + command + " id="+ id);
-        $.getJSON("/ajax/"+command, {id: id});
+        if (command == "connect") {
+            $.getJSON("/ajax/"+command, {id: id, passphrase: 'my wifi pass'});
+        } else {
+            $.getJSON("/ajax/"+command, {id: id});
+        }
         return false;
 });
 </script>
