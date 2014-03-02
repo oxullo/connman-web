@@ -10,11 +10,6 @@ bus = dbus.SystemBus()
 manager = dbus.Interface(bus.get_object('net.connman', '/'), 'net.connman.Manager')
 
 
-def scan():
-    technology = dbus.Interface(bus.get_object('net.connman',
-            '/net/connman/technology/wifi'), 'net.connman.Technology')
-    technology.Scan()
-
 def get_wifi_services():
     services = []
     for path, props in manager.GetServices():
@@ -34,7 +29,6 @@ def sys_state():
 
 @app.route('/ajax/connections')
 def connections():
-    # scan()
     services = get_wifi_services()
     return render_template('connections.html', services=services)
 
