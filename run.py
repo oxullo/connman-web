@@ -44,12 +44,18 @@ def write_wifi_config(id, ssid, passphrase):
     f.write(contents)
     f.close()
 
+def scan():
+    technology = dbus.Interface(bus.get_object('net.connman',
+            '/net/connman/technology/wifi'), 'net.connman.Technology')
+    technology.Scan()
+
 @app.route('/ajax/sys_state')
 def sys_state():
     return jsonify(state=str(manager.GetProperties()['State']))
 
 @app.route('/ajax/connections')
 def connections():
+    scan()
     services = get_wifi_services()
     print services
     return render_template('connections.html', services=services)
