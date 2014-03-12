@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="POST">
+    <input type="hidden" name="id" value="{{ id }}"/>
+    <input type="password" name="passphrase"/>
+    <input type="submit" value="Connect"/>
+</form>
+{% endblock %}

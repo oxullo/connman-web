@@ -4,7 +4,7 @@
 import os
 import dbus
 
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect
 
 app = Flask(__name__)
 bus = dbus.SystemBus()
@@ -72,10 +72,16 @@ def remove():
 
     return jsonify(ok=True)
 
-@app.route('/ajax/connect')
-def connect():
+@app.route('/connect', methods=['GET'])
+def connect_get():
     id = request.args.get('id')
-    passphrase = request.args.get('passphrase')
+    print 'GET ID:', id
+    return render_template('connect.html', id=id)
+
+@app.route('/connect', methods=['POST'])
+def connect_post():
+    id = request.form.get('id')
+    passphrase = request.form.get('passphrase')
 
     if not all((id, passphrase)):
         return jsonify(ok=False)
@@ -90,7 +96,7 @@ def connect():
     if wanted_service:
         write_wifi_config(id, wanted_service['name'], passphrase)
 
-    return jsonify(ok=True)
+    return redirect('/')
 
 @app.route('/')
 def index():
