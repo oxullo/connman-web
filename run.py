@@ -20,7 +20,7 @@ Passphrase = %(passphrase)s
 def get_config_path(id):
     return os.path.join(CONFIG_BASEDIR, '%s.config' % id)
 
-def is_config(id):
+def has_config(id):
     return os.path.isfile(get_config_path(id))
 
 def get_wifi_services():
@@ -32,7 +32,7 @@ def get_wifi_services():
         id = path[path.rfind("/") + 1:]
         entry = {'id': id, 'strength': int(props['Strength']),
                 'name': str(props['Name']), 'state': str(props['State']),
-                'is_config': is_config(id)}
+                'has_config': has_config(id)}
         services.append(entry)
 
     return sorted(services, key=lambda k: k['strength'], reverse=True)
@@ -60,10 +60,10 @@ def connections():
     print services
     return render_template('connections.html', services=services)
 
-@app.route('/ajax/forget')
-def forget():
+@app.route('/ajax/remove')
+def remove():
     id = request.args.get('id')
-    if is_config(id):
+    if has_config(id):
         os.unlink(get_config_path(id))
     else:
         service = dbus.Interface(bus.get_object('net.connman',
