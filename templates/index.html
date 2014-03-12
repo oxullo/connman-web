@@ -3,7 +3,6 @@
 {% block content %}
     <h1>Monobox network configuration panel</h1>
     <hr/>
-    <p><button id="refresh">Refresh</button></p>
     <p>Current state: <span id="state">N/A</state></p>
     <p>Available WiFi connections <img id="loader" src="static/loader.gif"/></p>
     <div id="connections" />
@@ -31,8 +30,7 @@ $( document ).ready(function() {
     poll();
 });
 
-$("#refresh").click(poll)
-//setInterval(poll, 5000);
+setInterval(poll, 5000);
 </script>
 
 {% endblock %}

@@ -55,7 +55,6 @@ def sys_state():
 
 @app.route('/ajax/connections')
 def connections():
-    scan()
     services = get_wifi_services()
     print services
     return render_template('connections.html', services=services)
